@@ -11,7 +11,7 @@ rm(list = ls())
 set.seed(12345)
 
 # Working directory
-setwd("/Users/kasparwuthrich/Dropbox/research/SC/SC with Victor and Yinchu/Conformal QR and DR/code/replication_package")
+## setwd("/Users/kasparwuthrich/Dropbox/research/SC/SC with Victor and Yinchu/Conformal QR and DR/code/replication_package")
 
 # Packages
 library(quantreg)
@@ -88,14 +88,17 @@ for (r in 1:5){
   res.cqr   <- cqr(Y0,X0,Y1,X1,Y.test,X.test,alpha.sig)
   res.reg   <- cp.reg(Y0,X0,Y1,X1,Y.test,X.test,alpha.sig)
   res.loc   <- cp.loc(Y0,X0,Y1,X1,Y.test,X.test,alpha.sig)
+  res.idr <- dcp.idr(Y0, X0, Y1, X1, Y.test, X.test, alpha.sig)
   
   X.test.vec <- c(X.test.vec,X.test)
   
   # Return results
   cov.mat.temp  <- cbind(res.qr$cov.qr,res.opt$cov.opt,res.dr$cov.dr,res.cqr$cov.o,
-                         res.cqr$cov.m,res.cqr$cov.r,res.reg$cov.reg,res.loc$cov.loc)
+    res.cqr$cov.m,res.cqr$cov.r,res.reg$cov.reg,res.loc$cov.loc,
+    res.idr$cov.idr)
   leng.mat.temp <- cbind(res.qr$leng.qr,res.opt$leng.opt,res.dr$leng.dr,res.cqr$leng.o,
-                         res.cqr$leng.m,res.cqr$leng.r,res.reg$leng.reg,res.loc$leng.loc)
+    res.cqr$leng.m,res.cqr$leng.r,res.reg$leng.reg,res.loc$leng.loc,
+    res.idr$leng.idr)
   
   cov.mat   <- rbind(cov.mat,cov.mat.temp)
   leng.mat  <- rbind(leng.mat,leng.mat.temp)
@@ -128,13 +131,15 @@ lines((1:num.seg),cov.cond[,6],type="b",pch=6,lwd=3,col=rgb(1,0.8,0))
 lines((1:num.seg),cov.cond[,7],type="b",pch=8,lwd=3,col=rgb(1,0.8,0))
 lines((1:num.seg),cov.cond[,8],type="b",pch=11,lwd=3,col=rgb(1,0.8,0))
 
+lines((1:num.seg),cov.cond[,9],type="b",pch=12,lwd=3,col=rgb(1,0.8,0))
+
 lines((1:num.seg),cov.cond[,1],type="b",pch=1,lwd=3,col=rgb(0,0,0.8))
 lines((1:num.seg),cov.cond[,2],type="b",pch=2,lwd=3,col=rgb(0,0,0.8))
 lines((1:num.seg),cov.cond[,3],type="b",pch=3,lwd=3,col=rgb(0,0,0.8))
 
 abline(h=0.9,lty=3,lwd=1)
-legend("bottomleft", c("DCP-QR","DCP-QR*", "DCP-DR","CQR","CQR-m","CQR-r","CP-OLS","CP-loc"), pch=c(1,2,3,4,5,6,8,11), 
-       lwd = c(4,4,4,4,4,4,4,4),col=c(rgb(0,0,0.8),rgb(0,0,0.8),rgb(0,0,0.8),rgb(1,0.8,0),rgb(1,0.8,0), rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0)),bty = "n")
+legend("bottomleft", c("DCP-QR","DCP-QR*", "DCP-DR","CQR","CQR-m","CQR-r","CP-OLS","CP-loc", "DCP-IDR"), pch=c(1,2,3,4,5,6,8,11,12), 
+       lwd = c(4,4,4,4,4,4,4,4,4),col=c(rgb(0,0,0.8),rgb(0,0,0.8),rgb(0,0,0.8),rgb(1,0.8,0),rgb(1,0.8,0), rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0)),bty = "n")
 dev.off()
 
 graphics.off()
@@ -147,11 +152,13 @@ lines((1:num.seg),leng.cond[,6],type="b",pch=6,lwd=3,col=rgb(1,0.8,0))
 lines((1:num.seg),leng.cond[,7],type="b",pch=8,lwd=3,col=rgb(1,0.8,0))
 lines((1:num.seg),leng.cond[,8],type="b",pch=11,lwd=3,col=rgb(1,0.8,0))
 
+lines((1:num.seg),leng.cond[,9],type="b",pch=12,lwd=3,col=rgb(1,0.8,0))
+
 lines((1:num.seg),leng.cond[,1],type="b",pch=1,lwd=3,col=rgb(0,0,0.8))
 lines((1:num.seg),leng.cond[,2],type="b",pch=2,lwd=3,col=rgb(0,0,0.8))
 lines((1:num.seg),leng.cond[,3],type="b",pch=3,lwd=3,col=rgb(0,0,0.8))
 
-legend("topleft", c("DCP-QR","DCP-QR*", "DCP-DR","CQR","CQR-m","CQR-r","CP-OLS","CP-loc"), pch=c(1,2,3,4,5,6,8,11), 
-       lwd = c(4,4,4,4,4,4,4,4),col=c(rgb(0,0,0.8),rgb(0,0,0.8),rgb(0,0,0.8),rgb(1,0.8,0),rgb(1,0.8,0), rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0)),bty = "n")
+legend("topleft", c("DCP-QR","DCP-QR*", "DCP-DR","CQR","CQR-m","CQR-r","CP-OLS","CP-loc", "DCP-IDR"), pch=c(1,2,3,4,5,6,8,11), 
+       lwd = c(4,4,4,4,4,4,4,4),col=c(rgb(0,0,0.8),rgb(0,0,0.8),rgb(0,0,0.8),rgb(1,0.8,0),rgb(1,0.8,0), rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0)),bty = "n")
 dev.off()
 
