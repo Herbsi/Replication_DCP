@@ -131,7 +131,7 @@ lines((1:num.seg),cov.cond[,6],type="b",pch=6,lwd=3,col=rgb(1,0.8,0))
 lines((1:num.seg),cov.cond[,7],type="b",pch=8,lwd=3,col=rgb(1,0.8,0))
 lines((1:num.seg),cov.cond[,8],type="b",pch=11,lwd=3,col=rgb(1,0.8,0))
 
-lines((1:num.seg),cov.cond[,9],type="b",pch=12,lwd=3,col=rgb(1,0.8,0))
+lines((1:num.seg),cov.cond[,9],type="b",pch=12,lwd=3,col=rgb(1,0,0))
 
 lines((1:num.seg),cov.cond[,1],type="b",pch=1,lwd=3,col=rgb(0,0,0.8))
 lines((1:num.seg),cov.cond[,2],type="b",pch=2,lwd=3,col=rgb(0,0,0.8))
@@ -139,7 +139,7 @@ lines((1:num.seg),cov.cond[,3],type="b",pch=3,lwd=3,col=rgb(0,0,0.8))
 
 abline(h=0.9,lty=3,lwd=1)
 legend("bottomleft", c("DCP-QR","DCP-QR*", "DCP-DR","CQR","CQR-m","CQR-r","CP-OLS","CP-loc", "DCP-IDR"), pch=c(1,2,3,4,5,6,8,11,12), 
-       lwd = c(4,4,4,4,4,4,4,4,4),col=c(rgb(0,0,0.8),rgb(0,0,0.8),rgb(0,0,0.8),rgb(1,0.8,0),rgb(1,0.8,0), rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0)),bty = "n")
+       lwd = c(4,4,4,4,4,4,4,4,4),col=c(rgb(0,0,0.8),rgb(0,0,0.8),rgb(0,0,0.8),rgb(1,0.8,0),rgb(1,0.8,0), rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0,0)),bty = "n")
 dev.off()
 
 graphics.off()
@@ -152,13 +152,13 @@ lines((1:num.seg),leng.cond[,6],type="b",pch=6,lwd=3,col=rgb(1,0.8,0))
 lines((1:num.seg),leng.cond[,7],type="b",pch=8,lwd=3,col=rgb(1,0.8,0))
 lines((1:num.seg),leng.cond[,8],type="b",pch=11,lwd=3,col=rgb(1,0.8,0))
 
-lines((1:num.seg),leng.cond[,9],type="b",pch=12,lwd=3,col=rgb(1,0.8,0))
+lines((1:num.seg),leng.cond[,9],type="b",pch=12,lwd=3,col=rgb(1,0,0))
 
 lines((1:num.seg),leng.cond[,1],type="b",pch=1,lwd=3,col=rgb(0,0,0.8))
 lines((1:num.seg),leng.cond[,2],type="b",pch=2,lwd=3,col=rgb(0,0,0.8))
 lines((1:num.seg),leng.cond[,3],type="b",pch=3,lwd=3,col=rgb(0,0,0.8))
 
-legend("topleft", c("DCP-QR","DCP-QR*", "DCP-DR","CQR","CQR-m","CQR-r","CP-OLS","CP-loc", "DCP-IDR"), pch=c(1,2,3,4,5,6,8,11), 
-       lwd = c(4,4,4,4,4,4,4,4),col=c(rgb(0,0,0.8),rgb(0,0,0.8),rgb(0,0,0.8),rgb(1,0.8,0),rgb(1,0.8,0), rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0)),bty = "n")
+legend("topleft", c("DCP-QR","DCP-QR*", "DCP-DR","CQR","CQR-m","CQR-r","CP-OLS","CP-loc", "DCP-IDR"), pch=c(1,2,3,4,5,6,8,11,12), 
+       lwd = c(4,4,4,4,4,4,4,4,4),col=c(rgb(0,0,0.8),rgb(0,0,0.8),rgb(0,0,0.8),rgb(1,0.8,0),rgb(1,0.8,0), rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0.8,0),rgb(1,0,0)),bty = "n")
 dev.off()
 
