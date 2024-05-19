@@ -3,6 +3,10 @@
 # Authors: V. Chernozhukov, K. Wuthrich, Y. Zhu 
 #############################################################################
 
+library(tibble)
+library(dplyr)
+library(isodistrreg)
+
 ### Auxiliary functions
 
 aux.uneven <- function(Y,X){
@@ -215,6 +219,54 @@ cqr <- function(Y0,X0,Y1,X1,Y.test,X.test,alpha.sig){
   
   return(list(cov.o=cov.o,cov.m=cov.m,cov.r=cov.r,leng.o=leng.o,leng.m=leng.m,leng.r=leng.r))
   
+}
+
+### DCP-IDR
+dcp.idr <- function(Y0, X0, Y1, X1, Y.test, X.test, alpha.sig) {
+  fm <- idr(Y0, as_tibble(X0)) # Fit IDR to (`X0', `Y0')
+
+  ## Scores on calibration set
+  pred <- predict(fm, as_tibble(X1)) # Predict on `Y1'
+  cs <- rep(NA, length(Y1)) 
+  for (i in 1:length(Y1)) { # Calculate conformity scores; these are used to construct the prediction set.
+    pred.i <- as_tibble(pred[[i]])
+    cs[i] <- pred.i |>
+      filter(points >= Y1[i]) |> # Select row such that points[j] <= Y1[i] < points[j+1]
+      first() |>
+      mutate(score = abs(cdf - 1 / 2), .keep = "unused") |> # Calculate the nonconformity score as |cdf[j] - 1/2|
+      pull(score) # Extract numerical value
+  }
+
+
+  ## Calculate threshold as (1 - α) * (1 + |Y1|) quantile of the scores
+  k <- ceiling((1-alpha.sig)*(1+length(Y1)))
+  threshold <- sort(cs)[k]
+
+
+  ## Scores on test set
+  pred.test <- predict(fm, as_tibble(X.test))
+
+  cs.test <- rep(NA, length(Y.test)) 
+  for (i in 1:length(Y.test)) { # Calculate scores on test set; used to check coverage
+    pred.i <- as_tibble(pred[[i]])
+    cs.test[i] <- pred.i |>
+      filter(points >= Y.test[i]) |> 
+      first() |>
+      mutate(score = abs(cdf - 1 / 2), .keep = "unused") |> 
+      pull(score) 
+  }
+
+  
+  cov.idr <- cs.test <= threshold
+
+  ## TODO: Length of interval
+
+  leng.idr <- rep(1, length(Y.test))
+
+  return(list(
+    cov.idr = cov.idr,
+    leng.idr = leng.idr
+    ))
 }
 
 # CP-OLS
